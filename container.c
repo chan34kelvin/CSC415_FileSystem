@@ -13,68 +13,165 @@
 #include <errno.h>
 #include <math.h>
 #define CONTAINERSIZE 512;
+#define FILESIZE 500000000;
+#define DIRECTORYENTRYSIZE 500000000;
+#define WL_BLOCK 2500;
 typedef struct Container{
 	int size;
-	DirectoryEntryP arr[10000];
+	DirectoryEntry arr[10000];
 	struct FileSystemInfo info; 
-}Container,* containerP;
-int main(){
-	/*Container C1;
-	DirectoryEntry entry1;
-	DirectoryEntry entry2;
-	char name[128]="brian";
-	entry1.fileName= name;
-	entry2.fileName= "oooo";
-	add(&C1,&entry1);
-	printf("from filename1: %s\n",C1.arr[0]->fileName);
-	add(&C1,&entry2);
-	printf("from filename2: %s\n",C1.arr[1]->fileName);
-	delete(&C1,0);
-	delete(&C1,1);
-	printAll(&C1);*/
-	//create a container and invoke initialize for filesysteminfo or a function call to initialize the info and set all values to default
-	//when user access, they can just add to the switch
+}Container,* ContainerP;
+
+volatile DirectoryEntryP dir=  NULL;
+volatile int dirCount= 0;
+int maxDirCount=0;
+
+int freeIndex[10000];
+int freeArrSize;
+
+void creatingFile();
+int main(int argc,char *argv[]){
+	Container C1;
+
+	int userChoice;
+
+	printf("Initializing file system\n");
+	initializeFileSystem(&C1);
+	printFileSystemInfo(&C1);
+
+	printf("Welcome to our file system\n");
+	printf("Press 1 for terminating the file system\n Press 2 to create a file\n User Choice: ");
+	scanf("%d",&userChoice);
+
 	do{
-		//create move delete terminate
-		int userChoice;
 		switch(userChoice){
-			case 1: //function
-				//create file
-			break;
+			case 1:
+				printf("Terminating file system, BYE!\n");
+				return 0;
 			case 2:
-				//move file
-			break;
-			case 3:
-				//delete file
-			break;
+				printf("Creating a file....\n");
+				creatingFile();
+				add(&C1);
+				break;
+			case 3: 
+				printf("Deleting a file....\n");
+				del(&C1);
+				break;
 			case 4:
-				//terminate main return 0
-			break;
+				break;
+			case 5:
+				break;
 			default:
-				//print all
+				printf("Now printing every directoryEntry in the file system..\n");
+				printAll(&C1);
 		}
+			printf("\nPress 1 for terminating the file system\n Press 2 to create a file\n Press 3 to delete the file\n Press 4 to move a file\n Press any number for printing file system\n User Choice: ");
+			scanf("%d",&userChoice);
 	}while(1);
+
 	return 0;
 }
-void add(Container* container,DirectoryEntryP file){
-	container->arr[container->size]= file;
-	printf("from add method filename position[%d]: %s\n",container->size,container->arr[container->size]->fileName);
-	container->size+=1;
+void creatingFile(){
+	if(dirCount>=maxDirCount){
+		maxDirCount+=WL_BLOCK;
+	}
+	if(dir==NULL){
+		dir=malloc(sizeof(DirectoryEntry)*maxDirCount);
+	}else{
+		DirectoryEntryP reallocD= realloc(dir, sizeof(DirectoryEntry)*maxDirCount);
+		dir=reallocD;
+	}
+	printf("size: %ld\n",dir[dirCount].size);
 }
-void delete(Container *container,int position){
-	printf("from delete method filename position[%d]: %s\n",position,container->arr[position]->fileName);
-	container->arr[position]=0;
-	container->size-=1;
-	printf("size of container:%d\n",container->size);
+void add(ContainerP C1){
+	char input[128];
+
+	int addInd= C1->size;
+	if(freeArrSize>0){
+		printf("%d\n",freeIndex[freeArrSize]);
+		addInd=freeIndex[freeArrSize];
+		freeArrSize-=1;
+	}
+	if(addInd!=C1->size){
+		C1->arr[C1->size]=dir[dirCount];
+	}
+
+	printf("Enter the name for this new file :");
+	scanf("%s",input);
+	if(!(dirCount==0||C1->size==0)){
+		int check=findFilePos(C1,input);
+		if(check>=0){
+			char temp[10];
+			C1->arr[check].repeat+=1;
+			int repeat= C1->arr[check].repeat;
+			strcat(input,"_");
+			sprintf(temp,"%d",repeat);
+			strcat(input,temp);
+		}
+	}
+
+	C1->arr[addInd].fileName= strdup(input);
+
+	printf("The filename entered: %s\n", C1->arr[addInd].fileName);
+
+	dirCount+=1;
+	if(addInd==C1->size){
+		C1->size+=1;
+	}
 }
-void printAll(Container* container){
-	for(int i=0;i<container->size;i+=1)
-		printf("from printAll method: %s\n",container->arr[i]->fileName);
+
+void del(ContainerP C1){
+	char input[128];
+	char *cmp;
+
+	printf("Enter the name of the file :");
+	scanf("%s",input);
+	cmp= input;
+
+	//check where the file is
+	
+	for(int i=0;i<C1->size;i++){
+		int res=-10000;
+		res= strcmp(cmp,C1->arr[i].fileName);
+		if(res==0){
+			freeIndex[freeArrSize++]=i;
+			C1->arr[i].fileName="";
+			printf("File deleted successfully\n");
+			return;
+		}
+	}
+	
+	printf("Sorry, file Not Found\n");
 }
-/*void move(char *,int);
-void remove(char *,int);
-int contain(char *,int);*/
-//container
-void print(Container* C1){
-	printf("%d",C1->size);
+	
+int findFilePos(ContainerP C1,char *input){
+	for(int i=0;i<C1->size;i++){
+		if(strcmp(C1->arr[i].fileName,input)==0){
+			printf("File already existed\n");
+			return i;
+		}
+	}
+	return -1;
+}
+			
+void printAll(ContainerP C1){
+	for(int i=0;i<C1->size;i++){
+		if(strcmp(C1->arr[i].fileName,"")!=0){
+			printf("Container C1 -> arr[%d]'s filename is %s\n",i,C1->arr[i].fileName);
+		}
+	}
+}	 	
+void printFileSystemInfo(ContainerP container){
+	printf("%ld\n",container->info.space);
+	printf("%ld\n",container->info.freeSpace);
+	printf("%ld\n",container->info.usedSpace);
+	printf("%s\n",container->info.name);
+}
+	
+void initializeFileSystem(ContainerP container){
+	long int fileSize= FILESIZE;
+	container->info.space= fileSize;
+	container->info.freeSpace= 0;
+	container->info.usedSpace= 0;
+	container->info.name="C Drive";
 }
