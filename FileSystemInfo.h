@@ -1,3 +1,4 @@
+#include <stdio.h>
 typedef struct FileSystemInfo {
 	long space; //how much total space we initial start //
 	long freeSpace; //how much space we have. Do we have to communicate between FreeSpace?  matches space
@@ -32,7 +33,6 @@ typedef struct FreeSpace {
 	int countFreeBlocks; //could we get the number of free spaces from the vector? 
 
 } FreeSpace;
-
 
 
 
