@@ -127,8 +127,10 @@ void writingFiles(uint64_t blockSize){
 	LBApos+=blockCountFileId;
 
 	//free
-	//free(fileNamesEnd);
-	//free(contentsEnd);
+	memset(fileNamesEnd,0,(MAXNUMSOFFILES*MAXFILENAMEBYTES)+1);
+	memset(contentsEnd,0,(MAXCONTENTBYTES*MAXNUMSOFFILES)+1);
+	free(fileNamesEnd);
+	free(contentsEnd);
 	
 }
 
@@ -146,10 +148,11 @@ void writingDir(uint64_t blockSize){
 
 	//LBAwrite dir names
 	char *dirNamesEnd= malloc((MAXNUMSOFDIRS*MAXDIRNAMEBYTES)+1);
-	
+	printf("test before: %s\n",dirNamesEnd);
 	//NULL is ""
 	for(uint32_t i=0;i<numOfDirsRAM;i++){
 		if(strcmp(dirEntries[i].dirName,"")!=0){
+			printf("test loop: %s\n", dirEntries[i].dirName);
 			strcat(dirNamesEnd,dirEntries[i].dirName);
 		}else{
 			strcat(dirNamesEnd," ");
@@ -157,6 +160,7 @@ void writingDir(uint64_t blockSize){
 		strcat(dirNamesEnd,delim1st);
 	}
 
+	printf("test: %s\n",dirNamesEnd);
 	uint32_t blockCountDirName= findStoringPos(strlen(dirNamesEnd),blockSize,sizeof(char));
 	memEnd->blockCountDirNames= blockCountDirName;
 	memEnd-> posDirNames= LBApos;
@@ -217,6 +221,31 @@ void writingDir(uint64_t blockSize){
 	//inc
 	LBApos+=blockCountSubDir;
 
+	//LBAwrite sub files
+	char * dirFilesEnd= malloc((MAXNUMOFSUBFILES*MAXFILENAMEBYTES)*MAXNUMOFSUBFILES);
+	for(uint32_t i=0;i<numOfDirsRAM;i++){
+		for(uint32_t j=0;j<MAXNUMOFSUBFILES;j++){
+			char *x;
+			x=dirEntries[i].subFiles[j];
+			if(x!=NULL){
+				strcat(dirFilesEnd,x);
+			}else if(x==NULL){
+				strcat(dirFilesEnd," ");
+			}
+			strcat(dirFilesEnd,delim2nd);
+		}
+		strcat(dirFilesEnd,delim1st);
+	}
+
+	uint32_t blockCountSubFile= findStoringPos(strlen(dirFilesEnd),blockSize,sizeof(char));
+	memEnd-> blockCountSubFiles= blockCountSubFile;
+	memEnd-> posSubFiles= LBApos;
+
+	LBAwrite(dirFilesEnd, blockCountSubFile, LBApos);
+
+	//inc
+	LBApos+=blockCountSubFile;
+
 	//LBAwrite ids
 	uint32_t dirIds[numOfDirsRAM];
 	
@@ -252,9 +281,14 @@ void writingDir(uint64_t blockSize){
 	LBApos+=blockCountDirDate; 
 
 	//free
+	memset(dirNamesEnd,0,(MAXNUMSOFDIRS*MAXDIRNAMEBYTES)+1);
+	memset(dirParentsEnd,0, (MAXNUMSOFDIRS*MAXDIRNAMEBYTES)+1);
+	memset(dirChildEnd,0, (MAXNUMSOFDIRS*MAXDIRNAMEBYTES)*MAXNUMOFSUBDIRS);
+	memset(dirFilesEnd,0, (MAXNUMOFSUBFILES*MAXFILENAMEBYTES)*MAXNUMOFSUBFILES);
 	free(dirNamesEnd);
 	free(dirParentsEnd);
 	free(dirChildEnd);
+	free(dirFilesEnd);
 	
 }
 
@@ -293,6 +327,24 @@ void writingFree(uint64_t blockSize){
 	LBApos+=blockCountFreeDir;
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
