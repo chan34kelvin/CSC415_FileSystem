@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 
 //maximum for directories
 #define MAXNUMSOFDIRS 2000
@@ -141,6 +142,8 @@ int findStoringPos(uint32_t,uint64_t,uint32_t);
 void writingFiles(uint64_t);
 
 void writingDir(uint64_t);
+
+void addDirectory(DirectoryEntry, uint32_t);
 
 
 
