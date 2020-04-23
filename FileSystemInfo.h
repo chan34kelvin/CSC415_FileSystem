@@ -19,8 +19,8 @@ typedef struct DirectoryEntry{
 	//initialize id
 	uint32_t id;
 
-	//initialize the total number of bytes this file used
-	uint32_t numOfBytes;
+	//how many files it can contain? 
+	char * subFiles[MAXNUMOFSUBFILES];
 
 	//initialize the date it was used
 	uint32_t date;
@@ -86,6 +86,10 @@ typedef struct System{
 	uint32_t blockCountSubDirs;
 	uint32_t posSubDirs;
 
+	//sub files
+	uint32_t blockCountSubFiles;
+	uint32_t posSubFiles;
+
 	//Free entries
 	uint32_t blockCountFreeFiles;
 	uint32_t posFreeFiles;
@@ -145,6 +149,17 @@ void writingFiles(uint64_t);
 void writingDir(uint64_t);
 
 void writingFree(uint64_t);
+
+
+
+
+
+
+
+
+
+
+	
 
 
 
