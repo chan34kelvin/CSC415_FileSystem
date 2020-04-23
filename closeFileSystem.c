@@ -127,8 +127,8 @@ void writingFiles(uint64_t blockSize){
 	LBApos+=blockCountFileId;
 
 	//free
-	free(fileNamesEnd);
-	free(contentsEnd);
+	//free(fileNamesEnd);
+	//free(contentsEnd);
 	
 }
 
