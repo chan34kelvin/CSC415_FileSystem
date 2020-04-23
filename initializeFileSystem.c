@@ -140,7 +140,6 @@ void initializeDirectories(uint64_t blockSize){
 
 	//LBAread sub dir entries
 	char subDirs[(memory->blockCountSubDirs*blockSize)];
-	char *parsing;//malloc(memory->blockCountSubDirs*blockSize);
 	char * test[numOfDirsRAM];
 	char *saveptr;
 	LBAread(subDirs,memory->blockCountSubDirs,memory->posSubDirs);
@@ -156,15 +155,16 @@ void initializeDirectories(uint64_t blockSize){
 		}
 	}
 
-	/*printf("test size: %d\n",numOfDirsRAM);
+	printf("test size: %d\n",numOfDirsRAM);
 	for(int i=0;i<numOfDirsRAM;i++){
 		printf("This is test %d with %s\n",i,test[i]);
-	}*/
+	}
 
 	for(uint32_t i=0;i<numOfDirsRAM;i++){
 		char *parsing1= malloc(blockSize);
 		parsing1= strtok(test[i],delim2nd);
-		for(uint32_t j=0;j<MAXNUMOFSUBDIRS;j++){
+		dirEntries[i].subDirs[0]=strdup(parsing1);
+		for(uint32_t j=1;j<MAXNUMOFSUBDIRS;j++){
 			if(parsing1!=NULL){
 				dirEntries[i].subDirs[j]=strtok(NULL,delim2nd);
 			}else{
@@ -173,6 +173,35 @@ void initializeDirectories(uint64_t blockSize){
 		}
 	}
 	//printf("test1: %s\n",dirEntries[0].subDirs[1]);
+
+	//LBAread sub files
+	char subFile[(memory->blockCountSubFiles*blockSize)];
+	char *parsing2;
+	char *test1[numOfDirsRAM];
+	LBAread(subFile,memory->blockCountSubFiles,memory->posSubFiles);
+
+	if(numOfDirsRAM>0){
+		test1[0]=strtok(subFile,delim1st);
+	}
+
+	for(uint32_t i=1;i<numOfDirsRAM;i++){
+		if(subFile!=NULL){
+			test1[i]=strtok(NULL,delim1st);
+		}
+	}
+
+	for(uint32_t i=0;i<numOfDirsRAM;i++){
+		char *parsing2= malloc(blockSize);
+		parsing2= strtok(test1[i],delim2nd);
+		dirEntries[i].subFiles[0]=strdup(parsing2);
+		for(uint32_t j=1;j<MAXNUMOFSUBFILES;j++){
+			if(parsing2!=NULL){
+				dirEntries[i].subFiles[j]=strtok(NULL,delim2nd);
+			}else{
+				printf("FAILED");
+			}
+		}
+	}
 
 	//LBAread dates
 	uint32_t dirDates[MAXNUMSOFDIRS];
@@ -216,6 +245,15 @@ void initializeFree(uint64_t blockSize){
 	}
 
 }
+
+
+
+
+
+
+
+
+
 
 
 
