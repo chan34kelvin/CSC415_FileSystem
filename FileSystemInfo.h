@@ -134,6 +134,8 @@ void initializeFiles(uint64_t);
 
 void initializeDirectories(uint64_t);
 
+void initializeFree(uint64_t);
+
 void closingFileSystem(uint64_t);
 
 int findStoringPos(uint32_t,uint64_t,uint32_t);
@@ -141,6 +143,19 @@ int findStoringPos(uint32_t,uint64_t,uint32_t);
 void writingFiles(uint64_t);
 
 void writingDir(uint64_t);
+
+void writingFree(uint64_t);
+
+
+
+
+
+
+
+
+
+
+	
 
 
 
