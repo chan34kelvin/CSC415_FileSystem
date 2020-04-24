@@ -228,23 +228,37 @@ void initializeDirectories(uint64_t blockSize){
 
 void initializeFree(uint64_t blockSize){
 	
-	//file entries
-	uint32_t fileFreeEntries[MAXNUMSOFFILES];
-	LBAread(fileFreeEntries, memory->blockCountFreeFiles, memory->posFreeFiles);
+	numOfFreeFiles= memory->numOfFreeFilesLoad;
+	numOfFreeDirs= memory->numOfFreeDirsLoad;
 
-	for(uint32_t i=0;i<numOfFilesRAM;i++){
-		freeEntriesFile[i]=fileFreeEntries[i];
+	if(numOfFreeFiles>0){
+		//file entries
+		uint32_t fileFreeEntries[MAXNUMSOFFILES];
+		LBAread(fileFreeEntries, memory->blockCountFreeFiles, memory->posFreeFiles);
+
+		for(uint32_t i=0;i<numOfFreeFiles;i++){
+			freeEntriesFile[i]=fileFreeEntries[i];
+		}
 	}
 
-	//directory entries
-	uint32_t dirFreeEntries[MAXNUMSOFDIRS];
-	LBAread(dirFreeEntries, memory->blockCountFreeDirs, memory->posFreeDirs);
+	if(numOfFreeDirs>0){
+		//directory entries
+		uint32_t dirFreeEntries[MAXNUMSOFDIRS];
+		LBAread(dirFreeEntries, memory->blockCountFreeDirs, memory->posFreeDirs);
 
-	for(uint32_t i=0;i<numOfDirsRAM;i++){
-		freeEntriesDir[i]=dirFreeEntries[i];
+		for(uint32_t i=0;i<numOfFreeDirs;i++){
+			freeEntriesDir[i]=dirFreeEntries[i];
+		}
 	}
-
 }
+
+
+
+
+
+
+
+
 
 
 
