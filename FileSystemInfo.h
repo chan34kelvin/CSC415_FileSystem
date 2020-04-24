@@ -93,9 +93,11 @@ typedef struct System{
 	//Free entries
 	uint32_t blockCountFreeFiles;
 	uint32_t posFreeFiles;
+	uint32_t numOfFreeFilesLoad;
 
 	uint32_t blockCountFreeDirs;
-	uint32_t posFreeDirs;	
+	uint32_t posFreeDirs;
+	uint32_t numOfFreeDirsLoad;
 
 }System, *System_P;
 
@@ -112,8 +114,9 @@ DirectoryEntry dirEntries1[MAXNUMSOFDIRS];
 uint32_t numOfDirsRAM=0;
 uint32_t numOfDirs1RAM=0;
 
-//make file entries only a max of 500 files could be created
+//file entries
 FileEntry fileEntries[MAXNUMSOFFILES];
+
 //track file entries
 uint32_t numOfFilesRAM=0;
 
@@ -124,6 +127,8 @@ System_P memEnd;
 //free entries arrays
 uint32_t freeEntriesFile[MAXNUMSOFFILES];
 uint32_t freeEntriesDir[MAXNUMSOFDIRS];
+uint32_t numOfFreeFiles=0;
+uint32_t numOfFreeDirs=0;
 
 //track LBA position
 uint32_t LBApos=1;
@@ -149,6 +154,17 @@ void writingFiles(uint64_t);
 void writingDir(uint64_t);
 
 void writingFree(uint64_t);
+
+
+
+
+
+
+
+
+
+
+	
 
 
 
