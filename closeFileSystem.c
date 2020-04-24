@@ -294,39 +294,65 @@ void writingDir(uint64_t blockSize){
 
 void writingFree(uint64_t blockSize){
 
+	memEnd-> numOfFreeDirsLoad= numOfFreeDirs;
+	memEnd-> numOfFreeFilesLoad= numOfFreeFiles;
+	
 	//LBAwrite files
-	uint32_t freeFiles[numOfFilesRAM];
+	if(numOfFreeFiles>0){
+		uint32_t freeFiles[numOfFreeFiles];
 
-	for(uint32_t i=0;i<numOfFilesRAM;i++){
-		freeFiles[i]= freeEntriesFile[i];
+		for(uint32_t i=0;i<numOfFreeFiles;i++){
+			freeFiles[i]= freeEntriesFile[i];
+		}
+
+		uint32_t blockCountFreeFile= findStoringPos(numOfFreeFiles, blockSize, sizeof(uint32_t));
+		memEnd-> blockCountFreeFiles= blockCountFreeFile;
+		memEnd-> posFreeFiles= LBApos;
+
+		LBAwrite(freeFiles, blockCountFreeFile, LBApos);
+
+		//inc
+		LBApos+=blockCountFreeFile;
 	}
-
-	uint32_t blockCountFreeFile= findStoringPos(numOfFilesRAM, blockSize, sizeof(uint32_t));
-	memEnd-> blockCountFreeFiles= blockCountFreeFile;
-	memEnd-> posFreeFiles= LBApos;
-
-	LBAwrite(freeFiles, blockCountFreeFile, LBApos);
-
-	//inc
-	LBApos+=blockCountFreeFile;
 
 	//LBAwrite directories
-	uint32_t freeDirs[numOfDirsRAM];
+	if(numOfFreeDirs>0){
+		uint32_t freeDirs[numOfFreeDirs];
 
-	for(uint32_t i=0;i<numOfDirsRAM;i++){
-		freeDirs[i]= freeEntriesDir[i];
+		for(uint32_t i=0;i<numOfFreeDirs;i++){
+			freeDirs[i]= freeEntriesDir[i];
+		}
+
+		uint32_t blockCountFreeDir= findStoringPos(numOfFreeDirs, blockSize, sizeof(uint32_t));
+		memEnd-> blockCountFreeDirs= blockCountFreeDir;
+		memEnd-> posFreeDirs= LBApos;
+
+		LBAwrite(freeDirs, blockCountFreeDir, LBApos);
+
+		//inc
+		LBApos+=blockCountFreeDir;
 	}
 
-	uint32_t blockCountFreeDir= findStoringPos(numOfDirsRAM, blockSize, sizeof(uint32_t));
-	memEnd-> blockCountFreeDirs= blockCountFreeDir;
-	memEnd-> posFreeDirs= LBApos;
-
-	LBAwrite(freeDirs, blockCountFreeDir, LBApos);
-
-	//inc
-	LBApos+=blockCountFreeDir;
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
