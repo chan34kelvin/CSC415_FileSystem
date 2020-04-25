@@ -15,6 +15,7 @@
 #include "driverFunctionP1.c"
 #include "checkFunctions.c"
 #include "driverFunctionP2.c"
+#include "driverFunctionP3.c"
 
 int main(int argc, char *argv[]){
 	//vars inside main and initialize
@@ -35,7 +36,7 @@ int main(int argc, char *argv[]){
 	//make a ROOT directory
 	if(numOfDirsRAM==0){
 		cdLoc=numOfDirsRAM;
-		creatingDir(nullVal,"ROOT");
+		creatingDir(nullVal,"ROOT",nullArrDirs,nullArrFiles,0);
 	}
 
 	//call control center
@@ -55,6 +56,12 @@ void freeMemory(){
 	free(memory);
 	free(memEnd);
 }
+
+
+
+
+
+
 
 
 
