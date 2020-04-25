@@ -120,6 +120,8 @@ uint32_t cdParent=0;
 
 //null value
 char *nullVal=" ";
+char *nullArrDirs[MAXNUMOFSUBDIRS];
+char *nullArrFiles[MAXNUMOFSUBFILES];
 
 //file entries
 FileEntry fileEntries[MAXNUMSOFFILES];
@@ -173,15 +175,19 @@ void writingFree(uint64_t);
 void controlCenter(uint64_t, uint64_t, char *);
 
 //driverFunctionP1
-void creatingDir(char *, char *);
+int creatingDir(char *, char *, char *[MAXNUMOFSUBDIRS],char *[MAXNUMOFSUBFILES],int);
 
-void creatingFile(char *);
+int creatingFile(char *, char *, int);
 
 //driverFunctionP2
 
 void deletingDir(char *);
 
-void currentDir(char *);
+int currentDir(char *);
+
+//driverFunctionP3
+
+void cpFunction(char *, char*);
 
 //checkFunctions
 int findPositionOfDirectory(char *);
@@ -203,6 +209,10 @@ int overflowFiles();
 int subIndexOfDir(char *);
 
 int subIndexOfFIle(char *);
+
+
+
+	
 
 
 
