@@ -16,6 +16,7 @@ void controlCenter(uint64_t blockSize, uint64_t volumeSize, char* filename){
 	printf("File System is now loaded, Welcome! \n");
 
 	do{
+		cd= strdup(dirEntries[cdLoc].dirName);
 		printf("The system allow commands like : touch, mkdir, cd, ls, cp, mv, rm, and quit\n");
 		printf("%s ~system: %s : please type the command you want to use: ", filename, cd);
 		scanf("%s", userInput);
@@ -37,6 +38,7 @@ void controlCenter(uint64_t blockSize, uint64_t volumeSize, char* filename){
 			return;
 		}else if(strcmp(userInput, "cd")==0){
 			//user wants to change directory
+			currentDir("");
 		}else if(strcmp(userInput, "rm")==0){
 			deletingDir("");
 			//user wants to delete a file or directory
