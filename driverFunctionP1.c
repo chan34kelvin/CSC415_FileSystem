@@ -9,7 +9,7 @@
 #include "fsLow.h"
 
 //creating a directory
-void creatingDir(char *parent, char* name){
+int creatingDir(char *parent, char* name, char *arr1[MAXNUMOFSUBDIRS], char *arr2[MAXNUMOFSUBFILES], int function){
 
 	//vars used
 	char userInput[100];
@@ -19,14 +19,14 @@ void creatingDir(char *parent, char* name){
 
 	if(subIndex==-1){
 		printf("you've reach the maximum number of sub directories use\n");
-		return;
+		return -1;
 	}
 
 	int index= checkDirectoryCanCreate();
 
 	if(index==-1){
 		printf("Unable to make directory\n");
-		return;
+		return -1;
 	}
 	
 	//check user input and outside input
@@ -40,18 +40,29 @@ void creatingDir(char *parent, char* name){
 	//check user input
 	if(strlen(userInput)>49){
 		printf("User input too long\n");
-		return;
+		return -1;
 	}
 
 	if(containsName(userInput,2)>0){
 		printf("\nThis name already exist in the current directory\n");
-		return;
+		return -1;
+	}
+
+	//for move and copy
+	if(function ==2){
+		for(int i=0;i<MAXNUMOFSUBDIRS;i++){
+			strcpy(dirEntries[index].subDirs,arr1);
+		}
+		for(int i=0;i<MAXNUMOFSUBFILES;i++){
+			strcpy(dirEntries[index].subFiles,arr2);
+		}
 	}
 
 	strcpy(dirEntries[index].parentDir, strdup(parent));
+	printf("parent : %s\n", dirEntries[index].parentDir);
 	dirEntries[index].date = 0;
 	strcpy(dirEntries[index].dirName, strdup(userInput));
-	dirEntries[index].id= 1;
+	dirEntries[index].id= cdLoc;
 
 	if(numOfDirsRAM>0){
 		dirEntries[cdLoc].subDirs[subIndex]=strdup(userInput);
@@ -61,10 +72,12 @@ void creatingDir(char *parent, char* name){
 		numOfDirsRAM+=1;
 	}
 
+	return index;
+
 }
 
 //creating a file
-void creatingFile(char *name){
+int creatingFile(char *name, char* content, int function){
 
 	//vars used
 	char userInput1[100];
@@ -74,14 +87,14 @@ void creatingFile(char *name){
 
 	if(subIndex==-1){
 		printf("You've reached the maximum number of sub files use\n");
-		return;
+		return -1;
 	}
 
 	int fileIndex= checkFileCanCreate();
 
 	if(fileIndex==-1){
 		printf("Unable to make a file\n");
-		return;
+		return -1;
 	}
 
 	//check user input and outside input
@@ -94,16 +107,20 @@ void creatingFile(char *name){
 
 	if(strlen(userInput1)>49){
 		printf("User input too long\n");
-		return;
+		return -1;
 	}
 
 	if(containsName(userInput1,2)>0){
 		printf("\nThis name already exist in the current directory\n");
-		return;
+		return -1;
+	}
+
+	if(function !=2){
+		content= " ";
 	}
 
 	strcpy(fileEntries[fileIndex].fileName, strdup(userInput1));
-	strcpy(fileEntries[fileIndex].content, " ");
+	strcpy(fileEntries[fileIndex].content, strdup(content));
 	fileEntries[fileIndex].id= cdLoc;
 	fileEntries[fileIndex].date= numOfFilesRAM;
 
@@ -115,7 +132,17 @@ void creatingFile(char *name){
 		numOfFilesRAM+=1;
 	}
 
+	return fileIndex;
+
 }
+
+
+
+
+
+
+
+
 
 
 
