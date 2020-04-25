@@ -17,20 +17,23 @@ void controlCenter(uint64_t blockSize, uint64_t volumeSize, char* filename){
 
 	do{
 		cd= strdup(dirEntries[cdLoc].dirName);
+		printf("---------------------------------------------------------------------------\n");
 		printf("The system allow commands like : touch, mkdir, cd, ls, cp, mv, rm, and quit\n");
 		printf("%s ~system: %s : please type the command you want to use: ", filename, cd);
 		scanf("%s", userInput);
+		printf("---------------------------------------------------------------------------\n");
 		if(strcmp(userInput, "touch")==0){
 			//user wants to create a file
-			creatingFile("");
+			creatingFile(""," ",0);
 		}else if(strcmp(userInput, "mkdir")==0){
 			//user wants to create a directory
 			//cdLoc=1;
-			creatingDir(cd,"");
+			creatingDir(cd,"",nullArrDirs,nullArrFiles,0);
 		}else if(strcmp(userInput, "ls")==0){
 			//user wants to see the list of files and directories
 		}else if(strcmp(userInput, "cp")==0){
 			//user wants to copy a file or directory into another directory
+			cpFunction("","");
 		}else if(strcmp(userInput, "mv")==0){
 			//user wants to move a file or directory into another directory
 		}else if(strcmp(userInput, "quit")==0){
