@@ -116,6 +116,7 @@ uint32_t numOfDirsRAM=0;
 //cd
 char *cd="ROOT";
 uint32_t cdLoc= 0;
+uint32_t cdParent=0;
 
 //null value
 char *nullVal=" ";
@@ -135,6 +136,10 @@ uint32_t freeEntriesFile[MAXNUMSOFFILES+1];
 uint32_t freeEntriesDir[MAXNUMSOFDIRS+1];
 uint32_t numOfFreeFiles=0;
 uint32_t numOfFreeDirs=0;
+
+//store current position
+uint32_t cdArr[MAXNUMSOFDIRS];
+uint32_t cdCount=0;
 
 //track LBA position
 uint32_t LBApos=1;
@@ -176,6 +181,8 @@ void creatingFile(char *);
 
 void deletingDir(char *);
 
+void currentDir(char *);
+
 //checkFunctions
 int findPositionOfDirectory(char *);
 
@@ -197,6 +204,9 @@ int subIndexOfDir(char *);
 
 int subIndexOfFIle(char *);
 
+
+
+	
 
 
 	
