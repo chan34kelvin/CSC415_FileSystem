@@ -148,7 +148,7 @@ void deletingDir(char *name){
 
 }
 
-void currentDir(char *name){
+int currentDir(char *name){
 
 	//var used
 	char userInput[100];
@@ -163,15 +163,16 @@ void currentDir(char *name){
 	//check user input
 	if(strlen(userInput)>49){
 		printf("User input too long\n");
-		return;
+		return -1;
 	}
 
-	//check valid input
+	//parent directory
 	if(strcmp(userInput,"..")==0){
 		if(cdCount>0){
 			cdLoc= cdArr[--cdCount];
 		}
-		return;
+		cd= strdup(dirEntries[cdLoc].dirName);
+		return 1;
 	}
 				
 
@@ -179,16 +180,32 @@ void currentDir(char *name){
 
 	if(retVal==-1){
 		printf("This name doesn't exist in the directory\n");
-		return;
+		return -1;
 	}
 
 	printf("test cdLoc: %d\n", retVal);
 
 	cdArr[cdCount++]=cdLoc;
 	cdLoc= retVal;
-
-	return;
+	cd= strdup(dirEntries[cdLoc].dirName);
+	return 1;
 }
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 
