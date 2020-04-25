@@ -1,6 +1,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -11,7 +12,7 @@
 #include "initializeFileSystem.c"
 #include "closeFileSystem.c"
 #include "FileSystemControl.c"
-#include "checkFunctionsP1.c"
+#include "checkingFunctionsP1.c"
 #include "driverFunctionP1.c"
 #include "checkFunctions.c"
 #include "driverFunctionP2.c"
