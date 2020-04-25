@@ -109,10 +109,16 @@ char *delim2nd=";";
 
 //make directory entries only a max of 200 directories could be created
 DirectoryEntry dirEntries[MAXNUMSOFDIRS];
-DirectoryEntry dirEntries1[MAXNUMSOFDIRS];
+
 //track dir entries
 uint32_t numOfDirsRAM=0;
-uint32_t numOfDirs1RAM=0;
+
+//cd
+char *cd="ROOT";
+uint32_t cdLoc= 0;
+
+//null value
+char *nullVal=" ";
 
 //file entries
 FileEntry fileEntries[MAXNUMSOFFILES];
@@ -125,8 +131,8 @@ System_P memory;
 System_P memEnd;
 
 //free entries arrays
-uint32_t freeEntriesFile[MAXNUMSOFFILES];
-uint32_t freeEntriesDir[MAXNUMSOFDIRS];
+uint32_t freeEntriesFile[MAXNUMSOFFILES+1];
+uint32_t freeEntriesDir[MAXNUMSOFDIRS+1];
 uint32_t numOfFreeFiles=0;
 uint32_t numOfFreeDirs=0;
 
@@ -135,8 +141,10 @@ uint32_t LBApos=1;
 
 //methods
 
+//free
 void freeMemory();
 
+//initialize
 void initializeFileSystem(uint64_t);
 
 void initializeFiles(uint64_t);
@@ -145,6 +153,7 @@ void initializeDirectories(uint64_t);
 
 void initializeFree(uint64_t);
 
+//closing
 void closingFileSystem(uint64_t);
 
 int findStoringPos(uint32_t,uint64_t,uint32_t);
@@ -155,6 +164,42 @@ void writingDir(uint64_t);
 
 void writingFree(uint64_t);
 
+//control center
+void controlCenter(uint64_t, uint64_t, char *);
+
+//driverFunctionP1
+void creatingDir(char *, char *);
+
+void creatingFile(char *);
+
+//driverFunctionP2
+
+void deletingDir(char *);
+
+//checkFunctions
+int findPositionOfDirectory(char *);
+
+int findPositionOfFile(char *);
+
+int containsName(char *, uint32_t);
+
+int checkDirectoryCanCreate();
+
+int checkFileCanCreate();
+
+int overflowDirectories();
+
+int overflowFiles();
+
+//checkFunctionsP1
+
+int subIndexOfDir(char *);
+
+int subIndexOfFIle(char *);
+
+
+
+	
 
 
 
