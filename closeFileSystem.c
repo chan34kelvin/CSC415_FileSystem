@@ -148,7 +148,7 @@ void writingDir(uint64_t blockSize){
 
 	//LBAwrite dir names
 	char *dirNamesEnd= malloc((MAXNUMSOFDIRS*MAXDIRNAMEBYTES)+1);
-	printf("test before: %s\n",dirNamesEnd);
+	//printf("test before: %s\n",dirNamesEnd);
 	//NULL is ""
 	for(uint32_t i=0;i<numOfDirsRAM;i++){
 		if(strcmp(dirEntries[i].dirName,"")!=0){
@@ -294,18 +294,23 @@ void writingDir(uint64_t blockSize){
 
 void writingFree(uint64_t blockSize){
 
+	printf("Number of free entries atm2 %d\n",numOfFreeDirs);
 	memEnd-> numOfFreeDirsLoad= numOfFreeDirs;
 	memEnd-> numOfFreeFilesLoad= numOfFreeFiles;
+
+	for(int i=0;i<10;i++){
+		printf("at index %d :%d|",i,freeEntriesDir[i]);
+	}
 	
 	//LBAwrite files
 	if(numOfFreeFiles>0){
-		uint32_t freeFiles[numOfFreeFiles];
+		uint32_t freeFiles[MAXNUMSOFFILES+1];
 
-		for(uint32_t i=0;i<numOfFreeFiles;i++){
+		for(uint32_t i=1;i<=numOfFreeFiles;i++){
 			freeFiles[i]= freeEntriesFile[i];
 		}
 
-		uint32_t blockCountFreeFile= findStoringPos(numOfFreeFiles, blockSize, sizeof(uint32_t));
+		uint32_t blockCountFreeFile= findStoringPos(numOfFreeFiles+1, blockSize, sizeof(uint32_t));
 		memEnd-> blockCountFreeFiles= blockCountFreeFile;
 		memEnd-> posFreeFiles= LBApos;
 
@@ -317,13 +322,13 @@ void writingFree(uint64_t blockSize){
 
 	//LBAwrite directories
 	if(numOfFreeDirs>0){
-		uint32_t freeDirs[numOfFreeDirs];
+		uint32_t freeDirs[MAXNUMSOFDIRS+1];
 
-		for(uint32_t i=0;i<numOfFreeDirs;i++){
+		for(uint32_t i=1;i<=MAXNUMSOFDIRS;i++){
 			freeDirs[i]= freeEntriesDir[i];
 		}
 
-		uint32_t blockCountFreeDir= findStoringPos(numOfFreeDirs, blockSize, sizeof(uint32_t));
+		uint32_t blockCountFreeDir= findStoringPos(numOfFreeDirs+1, blockSize, sizeof(uint32_t));
 		memEnd-> blockCountFreeDirs= blockCountFreeDir;
 		memEnd-> posFreeDirs= LBApos;
 
@@ -334,6 +339,25 @@ void writingFree(uint64_t blockSize){
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
