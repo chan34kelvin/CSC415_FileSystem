@@ -10,6 +10,11 @@
 #include "FileSystemInfo.h"
 #include "initializeFileSystem.c"
 #include "closeFileSystem.c"
+#include "FileSystemControl.c"
+#include "checkFunctionsP1.c"
+#include "driverFunctionP1.c"
+#include "checkFunctions.c"
+#include "driverFunctionP2.c"
 
 int main(int argc, char *argv[]){
 	//vars inside main and initialize
@@ -21,21 +26,20 @@ int main(int argc, char *argv[]){
 	startPartitionSystem (filename, &volumeSize, &blockSize);
 
 	//initialize all variables use in RAM
-	initializeFileSystem(blockSize);	
-	//printf("test: %d\n",fileEntries[2].id);
-	//test
-	/*for(int i=0;i<50;i++){
-		char name[51]="test";
-		//strcat(name,atoll(i));
-		fileEntries[i].id=i;
-		dirEntries[i].id=i;
-		strcpy(fileEntries[i].fileName, name);
-		strcpy(fileEntries[i].content, "OOOOOO");
-		strcpy(dirEntries[i].dirName, name);
-		strcpy(dirEntries[i].parentDir, "OOOOOO");
+	initializeFileSystem(blockSize);
+
+	/*for(int i=1;i<=10;i++){
+		printf("at index %d :%d|",i,freeEntriesDir[i]);
+	}*/
+	printf("Number of free entries atm1 %d\n",numOfFreeDirs);
+	//make a ROOT directory
+	if(numOfDirsRAM==0){
+		cdLoc=numOfDirsRAM;
+		creatingDir(nullVal,"ROOT");
 	}
-	numOfDirsRAM=50;
-	numOfFilesRAM=50;*/
+
+	//call control center
+	controlCenter(blockSize,volumeSize,filename);
 
 	//close file system
 	closingFileSystem(blockSize);
@@ -51,6 +55,12 @@ void freeMemory(){
 	free(memory);
 	free(memEnd);
 }
+
+
+
+
+
+
 
 
 
