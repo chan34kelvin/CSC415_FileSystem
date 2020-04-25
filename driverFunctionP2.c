@@ -11,7 +11,7 @@
 void deletingDir(char *name){
 
 	//vars used
-	char userInput[100];
+	char userInput2[100];
 	int subIndex=0;
 	int subIndex1=0;
 
@@ -23,13 +23,13 @@ void deletingDir(char *name){
 	//check valid input
 	if(strlen(name)<1||strlen(name)>49){
 		printf("Please enter the name\n");
-		scanf("%s",userInput);
+		scanf("%s",userInput2);
 	}else{
-		strcpy(userInput,name);
+		strcpy(userInput2,name);
 	}
 
 	//check user input
-	if(strlen(userInput)>49){
+	if(strlen(userInput2)>49){
 		printf("User input too long\n");
 		return;
 	}
@@ -37,14 +37,16 @@ void deletingDir(char *name){
 	//check directory first
 	uint32_t tempcdLoc=cdLoc;
 	char *tempCd= strdup(cd);
-	int retVal= containsName(userInput, 1);
+	int retVal= containsName(userInput2, 1);
 	int directoryIndex= retVal;
 	int fileIndex=-1;
+
+	printf("yo %s\n", userInput2);
 
 	if(retVal==-1){
 
 		//check files
-		retVal= containsName(userInput,3);
+		retVal= containsName(userInput2,3);
 		if(retVal==-1){
 			printf("This name never existed in this directory\n");
 			return;
@@ -54,11 +56,13 @@ void deletingDir(char *name){
 
 	}
 
+	printf("index: %d\n",directoryIndex);
+
 	if(fileIndex==-1){
 		//now removing directory
 		
 		//find the subIndex in the parent directory
-		subIndex= subIndexOfDir(userInput);
+		subIndex= subIndexOfDir(userInput2);
 	
 		if(subIndex==-1){
 			printf("unexpected error happened\n");
@@ -69,23 +73,37 @@ void deletingDir(char *name){
 		dirEntries[cdLoc].subDirs[subIndex]= strdup(" ");
 		
 		//test
-
+	
 		//remove the sub directories
 		for(uint32_t i=0;i<MAXNUMOFSUBDIRS;i++){
 			char *temp= dirEntries[directoryIndex].subDirs[i];
+			printf("test dump %s\n",temp);
 			if(temp!=NULL&&strcmp(temp," ")!=0&&strcmp(temp,"")!=0){
+				printf("N1 %s\n", temp);
+				cd= strdup(dirEntries[directoryIndex].dirName);
 				cdLoc= directoryIndex;
-				deletingDir(strdup(temp));
+				deletingDir(temp);
 				dirEntries[directoryIndex].subDirs[i]=strdup(" ");
 			}else{
 				dirEntries[directoryIndex].subDirs[i]=strdup(" ");
 			}
 			cdLoc=tempcdLoc;
+			cd= strdup(tempCd);
 		}
 
 		//remove the sub files
 		for(uint32_t i=0;i<MAXNUMOFSUBFILES;i++){
+			printf("test N %s\n",dirEntries[directoryIndex].subFiles[i]);
+			char *temp1= dirEntries[directoryIndex].subFiles[i];
+			if(temp1!=NULL&&strcmp(temp1," ")!=0&&strcmp(temp1,"")!=0){
+				printf("test N1 %s\n", temp1);
+				cdLoc= directoryIndex;
+				deletingDir(strdup(temp1));
 				dirEntries[directoryIndex].subFiles[i]=strdup(" ");
+			}else{
+				dirEntries[directoryIndex].subFiles[i]=strdup(" ");
+			}
+			cdLoc= tempcdLoc;
 		}
 
 		//remove the metadata
@@ -98,13 +116,13 @@ void deletingDir(char *name){
 		//store into free index
 		numOfFreeDirs+=1;
 		freeEntriesDir[numOfFreeDirs]=directoryIndex;
-		printf("cd Loc6 %d\n",numOfFreeDirs);
+		printf("cd Loc6 %d\n",numOfFreeDirs); 
 		return;
 	}else{
 		//now removing files
 
 		//find the subIndex
-		subIndex1= subIndexOfFile(userInput);
+		subIndex1= subIndexOfFile(userInput2);
 
 		if(subIndex1==-1){
 			printf("unexpected error happened\n");
@@ -127,7 +145,63 @@ void deletingDir(char *name){
 	}
 
 	return;
+
+}
+
+void currentDir(char *name){
+
+	//var used
+	char userInput[100];
+
+	if(strlen(name)<1||strlen(name)>49){
+		//printf("Please enter the name\n");
+		scanf("%s",userInput);
+	}else{
+		strcpy(userInput,name);
+	}
+
+	//check user input
+	if(strlen(userInput)>49){
+		printf("User input too long\n");
+		return;
+	}
+
+	//check valid input
+	if(strcmp(userInput,"..")==0){
+		if(cdCount>0){
+			cdLoc= cdArr[--cdCount];
+		}
+		return;
+	}
+				
+
+	int retVal= containsName(userInput,2);
+
+	if(retVal==-1){
+		printf("This name doesn't exist in the directory\n");
+		return;
+	}
+
+	printf("test cdLoc: %d\n", retVal);
+
+	cdArr[cdCount++]=cdLoc;
+	cdLoc= retVal;
+
+	return;
+}
+	
 	
 
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
