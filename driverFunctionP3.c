@@ -72,5 +72,37 @@ void copyDir(char *parent, char *name){
         return;
     }
 
+    //check directory first
+	uint32_t tempcdLoc=cdLoc;
+	char *tempCd= strdup(cd);
+	int retVal= containsName(userInput, 1);
+	int directoryIndex= retVal;
+	int fileIndex=-1;
+
+	if(retVal==-1){
+
+		//check files
+		retVal= containsName(userInput,3);
+		if(retVal==-1){
+			printf("This name never existed in this directory\n");
+			return;
+		}
+
+		fileIndex= retVal;
+
+	}
+
+    /*Creating the copy version of the original directory*/
+    strcpy(dirEntries[index].parentDIr, strdup(parent));
+    dirEntries[index].date = 0;
+    strcpy(dirEntries[index].dirName, strdup(userInputCpyVer));
+    dirEntries[index].id = 1;
+
+    if(index==numOfDirsRAM){
+        numOfDirsRam += 1;
+    }
+
+    /*Creating copy file versions that were in the original directory into the copy directory */
+    
 
 }
