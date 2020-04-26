@@ -128,7 +128,4 @@ void deletingDir(char *name){
 	}
 
 	return;
-	
-
-
 }

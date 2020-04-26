@@ -16,6 +16,7 @@
 #include "driverFunctionP1.c"
 #include "checkFunctions.c"
 #include "driverFunctionP2.c"
+#include "driverFunctionP3.c"
 
 int main(int argc, char *argv[]){
 	//vars inside main and initialize

@@ -28,6 +28,7 @@ void controlCenter(uint64_t blockSize, uint64_t volumeSize, char* filename){
 			//cdLoc=1;
 			creatingDir(cd,"");
 		}else if(strcmp(userInput, "ls")==0){
+			listDirs();
 			//user wants to see the list of files and directories
 		}else if(strcmp(userInput, "cp")==0){
 			//user wants to copy a file or directory into another directory
