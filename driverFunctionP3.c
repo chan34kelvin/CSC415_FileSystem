@@ -9,11 +9,11 @@
 #include <errno.h>
 #include "fsLow.h"
 
-void copyDir(char *parent, char *name){
+/*void copyDir(char *parent, char *name){
     char userInput[100];
     char userInputCpyVer[100];
 
-    /*checking if theres too many directories*/
+    /*checking if theres too many directories
     int subIndex = overflowDirectories();
 
     if(subIndex = -1) {
@@ -29,12 +29,12 @@ void copyDir(char *parent, char *name){
         return;
     }
 
-    /*Checking if theres something to copy*/
+    /*Checking if theres something to copy
     if(numOfDirsRAM<2 || numOfFilesRAM==0){
         print("Nothing can be copied.\n")
     }
 
-    /*Checking if there is an input to be copied*/
+    /*Checking if there is an input to be copied
     if(strlen(name)<1)||strlen(name)>49{
         printf("Enter the name of which to copy: \n");
         scanf("%s",userInput);
@@ -47,7 +47,7 @@ void copyDir(char *parent, char *name){
         return;
     }
 
-    /*Creating and checking copy name*/
+    /*Creating and checking copy name
     printf("What is the copy's name?: \n");
 
     if(strlen(name)<1)||strlen(name)>49{
@@ -92,7 +92,7 @@ void copyDir(char *parent, char *name){
 
 	}
 
-    /*Creating the copy version of the original directory*/
+    /*Creating the copy version of the original directory
     strcpy(dirEntries[index].parentDIr, strdup(parent));
     dirEntries[index].date = 0;
     strcpy(dirEntries[index].dirName, strdup(userInputCpyVer));
@@ -102,7 +102,19 @@ void copyDir(char *parent, char *name){
         numOfDirsRam += 1;
     }
 
-    /*Creating copy file versions that were in the original directory into the copy directory */
+    /*Creating copy file versions that were in the original directory into the copy directory 
     
 
+}*/
+
+void listDirs(){
+    for(uint32_t i=0;i<numOfDirsRAM;i++){;
+			printf("Folder %d: %s\ndate:%d \n",i,dirEntries[i].dirName,dirEntries[i].date);
+		}
+}
+
+void listFiles(){
+    for(uint32_t i=0;i<numOfFilesRAM;i++){;
+			printf("Folder %d: %s\ndate:%d \n",i,fileEntries[i].fileName,fileEntries[i].date);
+		}
 }
