@@ -61,9 +61,6 @@ int containsName(char *name, uint32_t function){
 		}
 	}
 	if(function>1){
-		if(numOfFilesRAM==0){
-			return -1;
-		}
 		//checking files have this name
 		for(uint32_t i=0;i<MAXNUMOFSUBFILES;i++){
 			char *filename= dirEntries[cdLoc].subFiles[i];
@@ -137,6 +134,10 @@ int overflowDirectories(){
 }
 
 int overflowFiles(){
+	
+	if(numOfFilesRAM==0){
+		return 0;
+	}
 
 	for(uint32_t i=0;i<MAXNUMOFSUBFILES;i++){
 		if(dirEntries[cdLoc].subFiles[i]==NULL||strcmp(dirEntries[cdLoc].subFiles[i]," ")==0||strcmp(dirEntries[cdLoc].subFiles[i],"")==0){
@@ -150,6 +151,43 @@ int overflowFiles(){
 
 	
 //find Directory
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+	
+
+
+
 
 
 
