@@ -188,6 +188,10 @@ void moveFunction( char *name, char *name1){
 		deletingDir(userInput2);
 		return;
 	}else{
+		if(fileIndex1==fileIndex){
+			printf("Two files are the same, cant move\n");
+			return;
+		}
 		if(strcmp(userInput2,userInput3)==0){
 			strcpy(fileEntries[fileIndex1].content, strdup(fileEntries[fileIndex].content));
 			strcpy(fileEntries[fileIndex1].fileName,strdup(fileEntries[fileIndex].fileName));
