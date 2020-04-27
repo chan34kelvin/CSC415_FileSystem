@@ -1,45 +1,45 @@
 CC=gcc
 CFLAGS=-I.
-DEPS=fsLow.h FileSystemInfo.h 
+DEPS=fsLow.h FileSystemInfo.h fsDriver3.c checkFunctions.c checkFunctionsP1.c closeFileSystem.c driverFunctionP1.c driverFunctionP2.c driverFunctionP3.c driverFunctionP4.c FileSystemControl.c fsLow.c hexdump.c 
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-checkFunctions.o: checkFunctions.c
-	$(CC) -o checkFunctions.c
+fsDriver3.o: fsDriver3.o checkFunctions.o checkFunctionsP1.o closeFileSystem.o driverFunctionP1.o driverFunctionP2.o driverFunctionP3.o driverFunctionP4.o FileSystemControl.o fsLow.o hexdump.o 
+	$(CC) -o fsDriver3 fsDriver3.o
 
-checkFunctionsP1.o: checkFunctionsP1.c
-	$(CC) -o checkFunctionsP1.c
+checkFunctions: checkFunctions.o
+	$(CC) -o  checkFunctions checkFunctions.o
 
-closeFileSystem.o: closeFileSystem.c
-	$(CC) -o closeFileSystem.c
+checkFunctionsP1.o: checkFunctionsP1.o
+	$(CC) -o checkFunctionsP1 checkFunctionsP1.o
 
-driverFunctionP1.o: driverFunctionP1.c
-	$(CC) -o driverFunctionP1.c
+closeFileSystem.o: closeFileSystem.o
+	$(CC) -o closeFileSystem closeFileSystem.o
 
-driverFunctionP2.o: driverFunctionP2.c
-	$(CC) -o driverFunctionP2.c
+driverFunctionP1.o: driverFunctionP1.o
+	$(CC) -o driverFunctionP1 driverFunctionP1.o
 
-driverFunctionP3.o: driverFunctionP3.c
-	$(CC) -o driverFunctionP3.c
+driverFunctionP2.o: driverFunctionP2.o
+	$(CC) -o driverFunctionP2 driverFunctionP2.o
 
-driverFunctionP4.o: driverFunctionP4.c
-	$(CC) -o driverFunctionP4.c
+driverFunctionP3.o: driverFunctionP3.o
+	$(CC) -o driverFunctionP3 driverFunctionP3.o
 
-FileSystemControl.o: FileSystemControl.c
-	$(CC) -o FileSystemControl.c
+driverFunctionP4.o: driverFunctionP4.o
+	$(CC) -o driverFunctionP4 driverFunctionP4.o
 
-fsDriver3.o: fsDriver3.c checkFunctions.c checkFunctionsP1.c closeFileSystem.c driverFunctionP1.c driverFunctionP2.c driverFunctionP3.c driverFunctionP4.c FileSystemControl.c fsLow.c hexdump.c 
-	$(CC) -o fsDriver3.c
+FileSystemControl.o: FileSystemControl.o
+	$(CC) -o FileSystemControl FileSystemControl.o
 
-fsLow.o: fsLow.c
-	$(CC) -o fsLow.c
+fsLow.o: fsLow.o
+	$(CC) -o fsLow fsLow.o
 
-hexdump.o: hexdump.c
-	$(CC) -o hexdump.c
+hexdump.o: hexdump.o
+	$(CC) -o hexdump hexdump.o
 
-initializeFileSystem.o: initializeFileSystem.c 
-	$(CC) -o initializeFileSystem.c
+initializeFileSystem.o: initializeFileSystem.o 
+	$(CC) -o initializeFileSystem initializeFileSystem.o
 
-output: checkFunctions.c checkFunctionsP1.c closeFileSystem.c driverFunctionP1.c driverFunctionP2.c driverFunctionP3.c driverFunctionP4.c FileSystemControl.c fsDriver3.c fsLow.c hexdump.c initializeFileSystem.c
+output: checkFunctions.o checkFunctionsP1.o closeFileSystem.o driverFunctionP1.o driverFunctionP2.o driverFunctionP3.o driverFunctionP4.o FileSystemControl.o fsDriver3.o fsLow.o hexdump.o initializeFileSystem.o
 	$(CC) -o output checkFunctions.o checkFunctionsP1.o closeFileSystem.o driverFunctionP1.o driverFunctionP2.o driverFunctionP3.o driverFunctionP4.o FileSystemControl.o fsDriver3.o fsLow.o hexdump.o initializeFileSystem.o
