@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <errno.h>
-#include "fsLow.h"
+#include <stdint.h>
+#include "FileSystemInfo.h"
 
 //check for remove
 
@@ -36,6 +36,8 @@ int subIndexOfFile(char *name){
 
 		
 		
+
+
 
 
 
