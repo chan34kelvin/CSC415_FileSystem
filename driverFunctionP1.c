@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <errno.h>
-#include "fsLow.h"
+#include <stdint.h>
+#include "FileSystemInfo.h"
 
 //creating a directory
 int creatingDir(char *parent, char* name, char *arr1[MAXNUMOFSUBDIRS], char *arr2[MAXNUMOFSUBFILES], int function){
@@ -19,13 +19,6 @@ int creatingDir(char *parent, char* name, char *arr1[MAXNUMOFSUBDIRS], char *arr
 
 	if(subIndex==-1){
 		printf("you've reach the maximum number of sub directories use\n");
-		return -1;
-	}
-
-	int index= checkDirectoryCanCreate();
-
-	if(index==-1){
-		printf("Unable to make directory\n");
 		return -1;
 	}
 	
@@ -43,8 +36,15 @@ int creatingDir(char *parent, char* name, char *arr1[MAXNUMOFSUBDIRS], char *arr
 		return -1;
 	}
 
-	if(containsName(userInput,2)>0){
+	if(containsName(userInput,2)>-1){
 		printf("\nThis name already exist in the current directory\n");
+		return -1;
+	}
+
+	int index= checkDirectoryCanCreate();
+
+	if(index==-1){
+		printf("Unable to make directory\n");
 		return -1;
 	}
 
@@ -60,13 +60,11 @@ int creatingDir(char *parent, char* name, char *arr1[MAXNUMOFSUBDIRS], char *arr
 
 	strcpy(dirEntries[index].parentDir, strdup(parent));
 	printf("parent : %s\n", dirEntries[index].parentDir);
-	dirEntries[index].date = 0;
+	dirEntries[index].date = 10000+numOfDirsRAM;
 	strcpy(dirEntries[index].dirName, strdup(userInput));
 	dirEntries[index].id= cdLoc;
 
-	if(numOfDirsRAM>0){
-		dirEntries[cdLoc].subDirs[subIndex]=strdup(userInput);
-	}
+	dirEntries[cdLoc].subDirs[subIndex]=strdup(userInput);
 
 	if(index==numOfDirsRAM){
 		numOfDirsRAM+=1;
@@ -90,13 +88,6 @@ int creatingFile(char *name, char* content, int function){
 		return -1;
 	}
 
-	int fileIndex= checkFileCanCreate();
-
-	if(fileIndex==-1){
-		printf("Unable to make a file\n");
-		return -1;
-	}
-
 	//check user input and outside input
 	if(strlen(name)<1||strlen(name)>49){
 		printf("Please enter the file name\n");
@@ -110,8 +101,15 @@ int creatingFile(char *name, char* content, int function){
 		return -1;
 	}
 
-	if(containsName(userInput1,2)>0){
+	if(containsName(userInput1,2)>-1){
 		printf("\nThis name already exist in the current directory\n");
+		return -1;
+	}
+
+	int fileIndex= checkFileCanCreate();
+
+	if(fileIndex==-1){
+		printf("Unable to make a file\n");
 		return -1;
 	}
 
@@ -122,11 +120,9 @@ int creatingFile(char *name, char* content, int function){
 	strcpy(fileEntries[fileIndex].fileName, strdup(userInput1));
 	strcpy(fileEntries[fileIndex].content, strdup(content));
 	fileEntries[fileIndex].id= cdLoc;
-	fileEntries[fileIndex].date= numOfFilesRAM;
+	fileEntries[fileIndex].date= 30000+numOfFilesRAM;
 
-	if(numOfDirsRAM>0){
-		dirEntries[cdLoc].subFiles[subIndex]= strdup(userInput1);
-	}
+	dirEntries[cdLoc].subFiles[subIndex]= strdup(userInput1);
 	
 	if(fileIndex==numOfFilesRAM){
 		numOfFilesRAM+=1;
@@ -135,14 +131,6 @@ int creatingFile(char *name, char* content, int function){
 	return fileIndex;
 
 }
-
-
-
-
-
-
-
-
 
 
 
