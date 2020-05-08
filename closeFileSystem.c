@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <errno.h>
-#include "fsLow.h"
+#include <stdint.h>
+#include "FileSystemInfo.h"
 
 //end file system
 void closingFileSystem(uint64_t blockSize){
@@ -339,62 +339,6 @@ void writingFree(uint64_t blockSize){
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
