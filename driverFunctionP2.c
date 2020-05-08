@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <errno.h>
-#include "fsLow.h"
+#include <stdint.h>
+#include "FileSystemInfo.h"
 
 void deletingDir(char *name){
 
@@ -15,7 +15,7 @@ void deletingDir(char *name){
 	int subIndex=0;
 	int subIndex1=0;
 
-	if(numOfDirsRAM<2||numOfFilesRAM==0){
+	if(numOfDirsRAM<1||numOfFilesRAM==0){
 		printf("There is nothing to delete\n");
 		return;
 	}
@@ -41,7 +41,7 @@ void deletingDir(char *name){
 	int directoryIndex= retVal;
 	int fileIndex=-1;
 
-	printf("yo %s\n", userInput2);
+	//printf("yo %s\n", userInput2);
 
 	if(retVal==-1){
 
@@ -77,9 +77,9 @@ void deletingDir(char *name){
 		//remove the sub directories
 		for(uint32_t i=0;i<MAXNUMOFSUBDIRS;i++){
 			char *temp= dirEntries[directoryIndex].subDirs[i];
-			printf("test dump %s\n",temp);
+			//printf("test dump %s\n",temp);
 			if(temp!=NULL&&strcmp(temp," ")!=0&&strcmp(temp,"")!=0){
-				printf("N1 %s\n", temp);
+				//printf("N1 %s\n", temp);
 				cd= strdup(dirEntries[directoryIndex].dirName);
 				cdLoc= directoryIndex;
 				deletingDir(temp);
@@ -93,10 +93,10 @@ void deletingDir(char *name){
 
 		//remove the sub files
 		for(uint32_t i=0;i<MAXNUMOFSUBFILES;i++){
-			printf("test N %s\n",dirEntries[directoryIndex].subFiles[i]);
+			//printf("test N %s\n",dirEntries[directoryIndex].subFiles[i]);
 			char *temp1= dirEntries[directoryIndex].subFiles[i];
 			if(temp1!=NULL&&strcmp(temp1," ")!=0&&strcmp(temp1,"")!=0){
-				printf("test N1 %s\n", temp1);
+				//printf("test N1 %s\n", temp1);
 				cdLoc= directoryIndex;
 				deletingDir(strdup(temp1));
 				dirEntries[directoryIndex].subFiles[i]=strdup(" ");
@@ -119,6 +119,7 @@ void deletingDir(char *name){
 		printf("cd Loc6 %d\n",numOfFreeDirs); 
 		return;
 	}else{
+			
 		//now removing files
 
 		//find the subIndex
@@ -133,8 +134,8 @@ void deletingDir(char *name){
 		dirEntries[cdLoc].subFiles[subIndex1]= strdup(" ");
 
 		//remove the metadata
-		strcpy(fileEntries[fileIndex].fileName, " ");
-		strcpy(fileEntries[fileIndex].content, " ");
+		strcpy(fileEntries[fileIndex].fileName, strdup(" "));
+		strcpy(fileEntries[fileIndex].content, strdup(" "));
 		fileEntries[fileIndex].id=0;
 		fileEntries[fileIndex].date=0;
 
@@ -206,8 +207,6 @@ int currentDir(char *name){
 
 
 
-	
-	
 
 
 
