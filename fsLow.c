@@ -122,7 +122,7 @@ int initializePartition (int fd, uint64_t volSize, uint64_t blockSize)
 
 	printf("Created a volume with %llu bytes, broken into %llu blocks of %llu bytes.\n",
 
-				 (ull_t)volSize, (ull_t)blkCount, (ull_t)blockSize);	
+				 volSize, blkCount, blockSize);	
 
 	free (buf);
 
