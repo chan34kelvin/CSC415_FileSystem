@@ -122,7 +122,7 @@ int initializePartition (int fd, uint64_t volSize, uint64_t blockSize)
 
 	printf("Created a volume with %llu bytes, broken into %llu blocks of %llu bytes.\n",
 
-				 (ull_t)volSize, (ull_t)blkCount, (ull_t)blockSize);	
+				 volSize, blkCount, blockSize);	
 
 	free (buf);
 
@@ -212,7 +212,7 @@ int startPartitionSystem (char * filename, uint64_t * volSize, uint64_t * blockS
 
 			uint64_t blksz = *blockSize;
 
-			printf("Block size is : %llu\n", (ull_t)blksz);
+			printf("Block size is : %llu\n", blksz);
 
 			if (blksz < MINBLOCKSIZE) //too small 
 
@@ -226,13 +226,13 @@ int startPartitionSystem (char * filename, uint64_t * volSize, uint64_t * blockS
 
 				{
 
-				printf("%llu is not a power of 2\n", (ull_t)blksz);
+				printf("%llu is not a power of 2\n", blksz);
 
 				
 
 				blksz = 1 << (uint64_t)(ceil(log2(blksz)));
 
-				printf("Block size is now: %llu\n", (ull_t)blksz);
+				printf("Block size is now: %llu\n", blksz);
 
 				*blockSize = blksz;
 

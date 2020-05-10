@@ -1,4 +1,23 @@
-//#include <stdio.h>
+/**************************************************************
+* Class: CSC-415-0# Spring 2020
+* Group Name: teamOne
+* Name: Kelvin Ching Kiu Chan
+* Student ID: 918171155
+* Name: Brian Nguyen 
+* Student ID: 915430040
+* Name: Edmund John Cruz
+* Student ID: 918363633
+* Name: Kamelia Shaharova
+* Student ID: 917591069
+*
+* Project: CSC 415 Assignment 3 – File System
+*
+* File: FileSystemInfo.h
+*
+* Description: provides definitions of max numbers of files. Also provides
+*  directories and typedef structures
+*
+**************************************************************/
 
 
 
