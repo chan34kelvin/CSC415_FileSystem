@@ -1,3 +1,22 @@
+/**************************************************************
+* Class: CSC-415-0# Spring 2020
+* Group Name: teamOne
+* Name: Kelvin Ching Kiu Chan
+* Student ID: 918171155
+* Name: Brian Nguyen 
+* Student ID: 915430040
+* Name: Edmund John Cruz
+* Student ID: 918363633
+* Name: Kamelia Shaharova
+* Student ID: 917591069
+*
+* Project: CSC 415 Assignment 3 – File System
+*
+* File: FileSystemControl.c
+*
+* Description: Allows the user to interact by using commands from this file
+*
+**************************************************************/
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -5,8 +24,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <errno.h>
-#include "fsLow.h"
+#include <stdint.h>
+#include "FileSystemInfo.h"
 
 void controlCenter(uint64_t blockSize, uint64_t volumeSize, char* filename){
 
@@ -18,7 +37,7 @@ void controlCenter(uint64_t blockSize, uint64_t volumeSize, char* filename){
 	do{
 		cd= strdup(dirEntries[cdLoc].dirName);
 		printf("---------------------------------------------------------------------------\n");
-		printf("The system allow commands like : touch, mkdir, cd, ls, cp, mv, rm, and quit\n");
+		printf("The system allow commands like : touch, mkdir, cd, ls, cp, mv, rm, change (name), getReal, setReal, and quit\n");
 		printf("%s ~system: %s : please type the command you want to use: ", filename, cd);
 		scanf("%s", userInput);
 		printf("---------------------------------------------------------------------------\n");
@@ -31,11 +50,13 @@ void controlCenter(uint64_t blockSize, uint64_t volumeSize, char* filename){
 			creatingDir(cd,"",nullArrDirs,nullArrFiles,0);
 		}else if(strcmp(userInput, "ls")==0){
 			//user wants to see the list of files and directories
+			listDir();
 		}else if(strcmp(userInput, "cp")==0){
 			//user wants to copy a file or directory into another directory
 			cpFunction("","");
 		}else if(strcmp(userInput, "mv")==0){
 			//user wants to move a file or directory into another directory
+			moveFunction("","");
 		}else if(strcmp(userInput, "quit")==0){
 			//user wants to end the file system
 			return;
@@ -45,6 +66,14 @@ void controlCenter(uint64_t blockSize, uint64_t volumeSize, char* filename){
 		}else if(strcmp(userInput, "rm")==0){
 			deletingDir("");
 			//user wants to delete a file or directory
+		}else if(strcmp(userInput, "change")==0){
+			//changing name and content of a file or directory
+			changeMetaData("");
+		}else if(strcmp(userInput, "getReal")==0){
+			//transfer file from real to system
+			readingFileFromReal("");
+		}else if(strcmp(userInput, "setReal")==0){
+			writingFileToReal("");
 		}else{
 			//user types something invalid
 			printf("Command not found\n");

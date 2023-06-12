@@ -1,3 +1,23 @@
+/**************************************************************
+* Class: CSC-415-0# Spring 2020
+* Group Name: teamOne
+* Name: Kelvin Ching Kiu Chan
+* Student ID: 918171155
+* Name: Brian Nguyen 
+* Student ID: 915430040
+* Name: Edmund John Cruz
+* Student ID: 918363633
+* Name: Kamelia Shaharova
+* Student ID: 917591069
+*
+* Project: CSC 415 Assignment 3 – File System
+*
+* File: checkFunctions.c
+*
+* Description: checks if files and subdirectories can be created, and as well as find them
+*
+**************************************************************/
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -5,8 +25,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <errno.h>
-#include "fsLow.h"
+#include <stdint.h>
+#include "FileSystemInfo.h"
 
 //contains
 
@@ -53,24 +73,18 @@ int containsName(char *name, uint32_t function){
 		}
 		//checking directories have this name
 		for(uint32_t i=0;i<MAXNUMOFSUBDIRS;i++){
-			if(dirEntries[cdLoc].subDirs[i]==NULL){
-				return -1;
-			}
 			char *dirname= dirEntries[cdLoc].subDirs[i];
-			if(strcmp(dirname,name)==0){
+			if(dirname!=NULL&&strcmp(dirname,name)==0){
 				int returnAdr= findPositionOfDirectory(name);
 				return returnAdr;
 			}
 		}
 	}
 	if(function>1){
-		if(numOfFilesRAM==0){
-			return -1;
-		}
 		//checking files have this name
 		for(uint32_t i=0;i<MAXNUMOFSUBFILES;i++){
 			char *filename= dirEntries[cdLoc].subFiles[i];
-			if(strcmp(filename,name)==0){
+			if(filename!=NULL&&strcmp(filename,name)==0){
 				int returnAdr= findPositionOfFile(name);
 				return returnAdr;
 			}
@@ -140,8 +154,8 @@ int overflowDirectories(){
 }
 
 int overflowFiles(){
-
-	if(numOfFilesRAM==0||numOfDirsRAM==0){
+	
+	if(numOfFilesRAM==0){
 		return 0;
 	}
 
@@ -156,7 +170,39 @@ int overflowFiles(){
 }
 
 	
-//check id if is a valid
+//find Directory
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
 
 	
 
