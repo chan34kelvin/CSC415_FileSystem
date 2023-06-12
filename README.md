@@ -1,11 +1,11 @@
 # CSC415_FileSystem
 
-This is a mimic file system built in C that provides a simple interface in terminal that can use basic functions. These basic functions includes the ability to read and write files, and create files and folders. Additionally, you can also delete and move folders down and up the tree.
+This is a C-based mimic file system that provides a simple terminal interface with basic functions. These functions include the ability to read and write files, create files and folders, delete and move folders within the file system's tree structure.
 
 # Collaborators
 This project is built by Team One in CSC 415 - Spring 2020 class.
 
-Members of the team.
+Members of the Team One.
 - Kelvin Ching Kiu Chan (Github: chan34kelvin)
 - Brian Nguygen
 - Edmund John Cruz
