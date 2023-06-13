@@ -2,7 +2,7 @@
 
 This is a mimic linux file system built in C that provides a simple terminal interface with basic functions. These functions include the ability to read and write files, create files and folders, delete and move folders within the file system's tree structure.
 
-# Collaborators
+# Contributors
 This project is built by Team One in CSC 415 - Spring 2020 class.
 
 Members of the Team One.
