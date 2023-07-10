@@ -12,11 +12,11 @@ Members of the Team One.
 - Kamelia shaharova
 
 # Setup and Project Report
-This project report will have all the setup instructions and details of how to use the file system.
+This project report will have all the setup instructions and details for using the file system. **Screenshots of the file system usage inside the report are located at the bottom**
 
 ## Prerequesites
 
-- Have a virtual environment that runs Linux and able to run C
+- Have a virtual environment that runs Linux and is able to run C
 
 ## Link to Report and Setup Instructions
 
