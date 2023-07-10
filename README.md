@@ -14,7 +14,9 @@ Members of the Team One.
 # Setup and Project Report
 
 Git clone this repo and follow the project report instructions.
-This project report will have all the setup instructions and details for using the file system. **Screenshots of the file system usage inside the report are located at the bottom**
+This project report will have all the setup instructions and details for using the file system. 
+
+**Screenshots of the file system usage inside the report are located at the bottom**
 
 ## Prerequesites
 
